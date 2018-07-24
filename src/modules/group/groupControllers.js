@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import Group from './groupModel';
-import message from '../../../../codewars-analytics/src/modules/messages/messages';
+import message from '../messages/messages';
 
 export const groupLoadAll = (req, res) => {
   Group.find()
