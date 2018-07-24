@@ -1,0 +1,96 @@
+{
+	"info": {
+		"_postman_id": "c2d41307-3a0d-401c-8ba8-8f8da5549d69",
+		"name": "CodewarsMonitor",
+		"description": "For repo https://github.com/bogutski/codewars-analytics",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GROUP",
+			"description": "",
+			"item": [
+				{
+					"name": "Create Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Js2\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/group",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Groups",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Js2\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/group",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"group"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CW get uset",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://www.codewars.com/api/v1/users/Viktor%20Bogutskii",
+					"protocol": "https",
+					"host": [
+						"www",
+						"codewars",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"Viktor%20Bogutskii"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
