@@ -1,8 +1,8 @@
 import express from 'express';
+import mongoConnection from './db';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-// import userRouter from './modules/user/userRoutes';
-import mongoConnection from './db';
+import groupRouter from './modules/group/groupRoutes';
 
 import message from './modules/messages/messages';
 
@@ -41,12 +41,7 @@ app.use((req, res, next) => {
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 // ===== ROUTING =====
-// app.use('/user', userRouter);
-// app.use('/product', productRouter);
-// app.use('/vocabular', vocabularRouter);
-// app.use('/file', fileRouter);
-// app.use('/backup', backupRouter);
-// app.use('/offer', offertRouter);
+app.use('/group', groupRouter);
 
 // ===== ERROR HANDLING =====
 app.use((req, res, next) =>
