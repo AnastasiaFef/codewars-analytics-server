@@ -1,9 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import mongoose from 'mongoose';
 // import userRouter from './modules/user/userRoutes';
-
+import mongoConnection from './db';
 
 import message from './modules/messages/messages';
 
@@ -14,20 +13,7 @@ const app = express();
 app.disable('x-powered-by');
 
 // ===== DATABASE ======
-mongoose.connect(
-  `mongodb+srv://${process.env.MONGO_ATLAS_USER}:${
-    process.env.MONGO_ATLAS_PWD
-  }@${process.env.MONGO_ATLAS_HOST}/${process.env.MONGO_ATLAS_DB_NAME}`,
-);
-
-mongoose.connection.on('error', () => {
-  throw new Error('Unable to connect to database');
-});
-
-// When the connection is disconnected
-mongoose.connection.on('disconnected', () => {
-  console.log('Mongoose default connection disconnected');
-});
+mongoConnection();
 
 // ===== LOGGER =====
 app.use(morgan('dev'));

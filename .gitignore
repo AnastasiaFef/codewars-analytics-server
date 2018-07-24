@@ -6,3 +6,4 @@ uploads/images/*
 /yarn-error.log
 /process.env
 /yarn.lock
+.env
