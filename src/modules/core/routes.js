@@ -1,5 +1,5 @@
-import userRouter from './modules/user/userRoutes';
-import groupRouter from './modules/group/groupRoutes';
+import userRouter from '../user/userRoutes';
+import groupRouter from '../group/groupRoutes';
 
 export default function routes(app) {
   app.use('/user', userRouter);

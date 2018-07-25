@@ -1,4 +1,4 @@
-import message from './modules/messages/messages';
+import message from '../messages/messages';
 
 export default function errorHandling(app) {
   app.use((req, res, next) =>
