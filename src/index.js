@@ -2,9 +2,8 @@ import express from 'express';
 import mongoConnection from './db';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import groupRouter from './modules/group/groupRoutes';
-
-import message from './modules/messages/messages';
+import routes from './routes';
+import errorHandling from './errorHandling';
 
 const PORT = +process.env.PORT || 5000;
 const app = express();
@@ -41,18 +40,10 @@ app.use((req, res, next) => {
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 // ===== ROUTING =====
-app.use('/group', groupRouter);
+routes(app);
 
 // ===== ERROR HANDLING =====
-app.use((req, res, next) =>
-  res.status(404).json(message.error('API not found')),
-); // eslint-disable-line no-unused-vars
-
-app.use((error, req, res, next) => {
-  // eslint-disable-line no-unused-vars
-  res.status(error.status || 500);
-  res.json(message.error(error.message));
-});
+errorHandling(app);
 
 // ===== PORT =====
 app.listen(PORT, () => {

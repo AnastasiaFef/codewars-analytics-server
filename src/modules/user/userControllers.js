@@ -58,7 +58,7 @@ export const userLogin = (req, res, next) => {
     .exec()
     .then(user => {
       if (!user.length) {
-        res.status(401).json(message.error('Auth failed. Email'));
+        throw 'User not found';
       }
 
       bcrypt.compare(req.body.password, user[0].password, (err, result) => {
@@ -90,8 +90,12 @@ export const userLogin = (req, res, next) => {
         res.status(401).json(message.error('Auth failed'));
       });
     })
-    .catch(err => {
-      res.status(500).json(message.error(err));
+    .catch(error => {
+      if (error === 'User not found') {
+        res.status(401).json(message.error('Auth failed. User not found'));
+      } else {
+        res.status(500).json(message.error(error));
+      }
     });
 };
 
