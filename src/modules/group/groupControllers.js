@@ -6,14 +6,12 @@ export const groupLoadAll = (req, res) => {
   Group.find()
     .select('-__v')
     .exec()
-    .then((docs) => {
-      res.status(200)
-        .json(docs);
+    .then(docs => {
+      res.status(200).json(docs);
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
-      res.status(500)
-        .json(message.error(err));
+      res.status(500).json(message.error(err));
     });
 };
 
@@ -32,15 +30,13 @@ export async function groupCreate(req, res) {
 
   group
     .save()
-    .then((result) => {
+    .then(result => {
       console.log(result);
-      res.status(201)
-        .json(message.success('Group created', payload));
+      res.status(201).json(message.success('Group created', payload));
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
-      res.status(500)
-        .json(message.error(err));
+      res.status(500).json(message.error(err));
     });
 }
 
@@ -49,19 +45,16 @@ export const groupGetById = (req, res) => {
   Group.findById(id)
     .select('-__v')
     .exec()
-    .then((doc) => {
+    .then(doc => {
       if (doc) {
-        res.status(200)
-          .json(doc);
+        res.status(200).json(doc);
       } else {
-        res.status(404)
-          .json(message.error('No group for provided id'));
+        res.status(404).json(message.error('No group for provided id'));
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
-      res.status(500)
-        .json({ error: err });
+      res.status(500).json({ error: err });
     });
 };
 
@@ -70,19 +63,16 @@ export async function groupUpdateById(req, res) {
 
   Group.update({ _id: id }, { $set: req.body })
     .exec()
-    .then((doc) => {
+    .then(doc => {
       if (doc.n) {
-        res.status(200)
-          .json(message.success('Group updated'));
+        res.status(200).json(message.success('Group updated'));
       } else {
-        res.status(400)
-          .json(message.error('Group not found'));
+        res.status(400).json(message.error('Group not found'));
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
-      res.status(500)
-        .json(message.error(err));
+      res.status(500).json(message.error(err));
     });
 }
 
@@ -90,18 +80,15 @@ export const groupDeleteById = (req, res) => {
   const id = req.params.groupId;
   Group.remove({ _id: id })
     .exec()
-    .then((doc) => {
+    .then(doc => {
       if (doc.n) {
-        res.status(200)
-          .json(message.success('Group deleted'));
+        res.status(200).json(message.success('Group deleted'));
       } else {
-        res.status(400)
-          .json(message.error('Group not found'));
+        res.status(400).json(message.error('Group not found'));
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
-      res.status(500)
-        .json(message.error(err));
+      res.status(500).json(message.error(err));
     });
 };

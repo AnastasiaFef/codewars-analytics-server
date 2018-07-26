@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from './userModel';
-import message from '../../../../codewars-analytics/src/modules/messages/messages';
+import message from '../messages/messages';
 
 export const userGetAll = (req, res, next) => {
   User.find()
@@ -38,7 +38,7 @@ export const userCreate = (req, res, next) => {
 
         user
           .save()
-          .then(result => {
+          .then(() => {
             res.status(201).json(message.success('User created'));
           })
           .catch(userError => {

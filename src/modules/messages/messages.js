@@ -3,17 +3,17 @@ const message = {};
 message.success = (text, payload) => ({
   message: {
     text,
-    type: 'success'
+    type: 'success',
   },
-  payload
+  payload,
 });
 
 message.error = (text, payload) => ({
   message: {
     text,
-    type: 'error'
+    type: 'error',
   },
-  payload
+  payload,
 });
 
 export default message;
