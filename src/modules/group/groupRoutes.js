@@ -14,7 +14,7 @@ const router = Router();
 router.get('/', groupLoadAll);
 router.post('/', userCheckAuth, groupCreate);
 router.get('/:groupId', groupGetById);
-router.patch('/:groupId', groupUpdateById);
-router.delete('/:groupId', groupDeleteById);
+router.patch('/:groupId', userCheckAuth, groupUpdateById);
+router.delete('/:groupId', userCheckAuth, groupDeleteById);
 
 export default router;

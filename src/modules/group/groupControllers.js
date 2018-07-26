@@ -21,6 +21,7 @@ export async function groupCreate(req, res) {
   const group = new Group({
     _id,
     name: req.body.name,
+    owner: req.userData.userId,
   });
 
   // Send back group id for redirect to new group after creating
