@@ -12,6 +12,14 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  codewarsId: {
+    type: String,
+    required: true,
+  },
+  codewarsAnalytics: {
+    type: Array,
+    required: false,
+  },
 });
 
 export default mongoose.model('User', userSchema);
