@@ -7,7 +7,7 @@ import {
   groupGetById,
   groupUpdateById,
 } from './groupControllers';
-import userCheckAuth from '../user/userCheckAuth';
+import userCheckAuth from '../user/controllers/userCheckAuth';
 
 const router = Router();
 

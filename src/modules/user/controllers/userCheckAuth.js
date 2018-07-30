@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import message from '../messages/messages';
+import message from '../../messages/messages';
 
 const userCheckAuth = (req, res, next) => {
   try {

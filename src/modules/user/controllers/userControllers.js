@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from './userModel';
-import message from '../messages/messages';
+import User from '../userModel';
+import message from '../../messages/messages';
 
 export const userGetAll = (req, res, next) => {
   User.find()
@@ -13,43 +13,6 @@ export const userGetAll = (req, res, next) => {
     })
     .catch(err => {
       res.status(500).json(message.error(err));
-    });
-};
-
-export const userCreate = (req, res, next) => {
-  User.find({ email: req.body.email })
-    .exec()
-    .then(doc => {
-      if (doc.length > 0) {
-        /* eslint no-throw-literal: 0 */
-        throw 'Mail exist';
-      }
-
-      bcrypt.hash(req.body.password, 10, (bcryptError, hash) => {
-        if (bcryptError) {
-          return res.status(500).json(message.error(bcryptError));
-        }
-
-        const user = new User({
-          _id: new mongoose.Types.ObjectId(),
-          email: req.body.email,
-          password: hash,
-        });
-
-        user
-          .save()
-          .then(() => {
-            res.status(201).json(message.success('User created'));
-          })
-          .catch(userError => {
-            res.status(500).json(message.error(userError));
-          });
-      });
-    })
-    .catch(error => {
-      if (error === 'Mail exist') {
-        res.status(409).json(message.error('Mail exist'));
-      }
     });
 };
 
