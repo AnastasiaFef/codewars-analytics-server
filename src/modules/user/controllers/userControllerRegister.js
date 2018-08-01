@@ -13,7 +13,6 @@ const userRegister = async (req, res, next) => {
   } else {
     getCodewarsUser(req.body.codewarsId)
       .then(codewarsUser => {
-        console.log(codewarsUser);
         if (codewarsUser.success === false) {
           throw new Error('codewars_user_not_found'); // Express will catch this on its own.
         } else if (codewarsUser.name) {
