@@ -2,13 +2,16 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import User from '../userModel';
 import message from '../../messages/messages';
-import checkCodewarsUser from '../../codewars/checkCodewarsUser';
+import getCodewarsUser from '../../codewars/getCodewarsUser';
 
+// 1. Check if mail exist
+// 2. Check codewars user if exist
+// 3. Create user with codewars data
 const userRegister = async (req, res, next) => {
   if (await isUserExist(req, res, next)) {
     res.status(409).json(message.error('Mail exist.'));
   } else {
-    checkCodewarsUser(req.body.codewarsId)
+    getCodewarsUser(req.body.codewarsId)
       .then(codewarsUser => {
         console.log(codewarsUser);
         if (codewarsUser.success === false) {
@@ -50,7 +53,7 @@ function createUser(req, res, next, codewarsUser) {
       codewarsAnalytics: [
         {
           timestamp: Date.now(),
-          codewars: codewarsUser,
+          data: codewarsUser,
         },
       ],
     });

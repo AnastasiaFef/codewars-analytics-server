@@ -1,7 +1,6 @@
 import axios from 'axios';
-import message from '../messages/messages';
 
-async function checkCodewarsUser(codewarsId = 0) {
+async function getCodewarsUser(codewarsId = 0) {
   return axios
     .get(`https://www.codewars.com/api/v1/users/${codewarsId}`, {
       validateStatus: function(status) {
@@ -12,4 +11,4 @@ async function checkCodewarsUser(codewarsId = 0) {
     .catch(error => error);
 }
 
-export default checkCodewarsUser;
+export default getCodewarsUser;

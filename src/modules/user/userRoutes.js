@@ -1,7 +1,11 @@
 import { Router } from 'express';
 import userCheckAuth from './controllers/userCheckAuth';
-import { userGetAll, userLogin, userGetById, userDeleteById } from './controllers/userControllers';
-import userRegister from './controllers/userControllerRegister.js';
+import userRegister from './controllers/userControllerRegister';
+import userLogin from './controllers/userControllerLogin';
+import userUpdateCw from './controllers/userControllerUpdateCw';
+import userGetAll from './controllers/userControllerGetAll';
+import userGetById from './controllers/userControllerGetById';
+import userDeleteById from './controllers/userControllerDeleteById';
 
 const router = Router();
 
@@ -12,6 +16,7 @@ router.post('/login', userLogin);
 router.get('/:userId', userCheckAuth, userGetById);
 router.delete('/:userId', userCheckAuth, userDeleteById);
 
+router.get('/update/cw/:userId', userCheckAuth, userUpdateCw);
 // Not active
 // router.patch('/:userId', userUpdateById);
 
