@@ -1,10 +1,10 @@
 import message from '../../messages/messages';
-import getCodewarsUser from '../../codewars/getCodewarsUser';
+import codewarsGetUser from '../../codewars/codewarsGetUser';
 
 const readCwUser = (req, res, next) => {
   const codewarsId = req.params.codewarsId;
 
-  getCodewarsUser(codewarsId)
+  codewarsGetUser(codewarsId)
     .then(codewarsUser => {
       if (codewarsUser.success === false) {
         throw new Error('codewars_user_not_found'); // Express will catch this on its own.

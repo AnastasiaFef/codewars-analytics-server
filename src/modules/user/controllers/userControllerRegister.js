@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import User from '../userModel';
 import message from '../../messages/messages';
-import getCodewarsUser from '../../codewars/getCodewarsUser';
+import codewarsGetUser from '../../codewars/codewarsGetUser';
 
 // 1. Check if mail exist
 // 2. Check codewars user if exist
@@ -11,7 +11,7 @@ const userRegister = async (req, res, next) => {
   if (await isUserExist(req, res, next)) {
     res.status(409).json(message.error('Mail exist.'));
   } else {
-    getCodewarsUser(req.body.codewarsId)
+    codewarsGetUser(req.body.codewarsId)
       .then(codewarsUser => {
         if (codewarsUser.success === false) {
           throw new Error('codewars_user_not_found'); // Express will catch this on its own.

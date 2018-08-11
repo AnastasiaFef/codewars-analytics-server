@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-function getCodewarsUser(codewarsId = 0) {
+function codewarsGetUser(codewarsId = 0) {
   return axios
     .get(`https://www.codewars.com/api/v1/users/${codewarsId}`, {
       validateStatus: function(status) {
@@ -11,4 +11,4 @@ function getCodewarsUser(codewarsId = 0) {
     .catch(error => error);
 }
 
-export default getCodewarsUser;
+export default codewarsGetUser;
