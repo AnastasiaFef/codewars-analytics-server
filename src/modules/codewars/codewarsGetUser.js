@@ -8,7 +8,10 @@ function codewarsGetUser(codewarsId = 0) {
       },
     })
     .then(response => response.data)
-    .catch(error => error);
+    .catch(error => ({
+      type: 'error',
+      payload: error,
+    }));
 }
 
 export default codewarsGetUser;

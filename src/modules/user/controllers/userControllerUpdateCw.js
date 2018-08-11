@@ -2,37 +2,38 @@ import User from '../userModel';
 import message from '../../messages/messages';
 import codewarsGetUser from '../../codewars/codewarsGetUser';
 
-const userUpdateCw = (req, res, next) => {
+const userUpdateCw = async (req, res, next) => {
   const userId = req.params.userId;
 
-  getUser('5b6a2c0cfdc9bf540a47440b-')
-    .then(a => {
-      console.log('Then', a);
-      res.status(200).json(message.success('---'));
-      // if (allowToUpdateCodewarsByDate(user.codewarsAnalytics)) {
-      //   // const codewarsUserNewData = await cwGetUser(user.codewarsId);
-      // } else {
-      //   res
-      //     .status(400)
-      //     .json(message.error('You can update statistic after 24h after previous call'));
-      // }
-    })
-    .catch(e => {
-      console.log('==========');
-      console.log(e);
-      res.status(400).json(message.error(e));
-      console.log('==========');
-    });
+  const user = await getUser('5b6a2c0cfdc9bf540a47440b-');
+
+  if (user.type === 'error') {
+    return res.status(400).json(message.error(user.payload));
+  }
+
+  if (allowToUpdateCodewarsByDate(user.payload.codewarsAnalytics)) {
+    const codewarsUserNewData = await codewarsGetUser(user.payload.codewarsId);
+  } else {
+    res
+      .status(400)
+      .json(message.error('You can update statistic after 24h after previous call'));
+  }
+
 };
 
 function getUser(userId) {
   return User.findById(userId)
     .select('-__v -password')
     .exec()
-    .then(doc => doc)
+    .then(doc => ({
+      type: 'success',
+      payload: doc,
+    }))
     .catch(() => {
-      console.log('--Get User error--');
-      return 'Get User error';
+      return {
+        type: 'error',
+        payload: 'User not found',
+      };
     });
 }
 
@@ -44,17 +45,17 @@ function allowToUpdateCodewarsByDate(codewarsAnalytics) {
   return hoursDifference > 24;
 }
 
-function cwGetUser(codewarsId) {
-  return codewarsGetUser(codewarsId)
-    .then(codewarsUser => codewarsUser)
-    .catch(err => {
-      if (err.message === 'codewars_user_not_found') {
-        throw new Error('Wrong codewars URL or user not exist');
-      } else {
-        throw new Error(err.message);
-      }
-    });
-}
+// function codewarsGetUser(codewarsId) {
+//   return codewarsGetUser(codewarsId)
+//     .then(codewarsUser => codewarsUser)
+//     .catch(err => {
+//       if (err.message === 'codewars_user_not_found') {
+//         throw new Error('Wrong codewars URL or user not exist');
+//       } else {
+//         throw new Error(err.message);
+//       }
+//     });
+// }
 
 const userUpdate = (userId, codewarsUserData) => {
   return User.update({ _id: id }, { $push: { codewarsAnalytics: codewarsUserData } })
