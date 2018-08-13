@@ -2,74 +2,80 @@ import User from '../userModel';
 import message from '../../messages/messages';
 import codewarsGetUser from '../../codewars/codewarsGetUser';
 
+// 1. Get user from Mongo
+// 2. Check if last request is no early than 24h
+// 3. Get new codewars data
+// 4. Update existing user
+
 const userUpdateCw = async (req, res, next) => {
   const userId = req.params.userId;
+  // 1. Get user from Mongo
+  const user = await getUser(userId);
 
-  const user = await getUser('5b6a2c0cfdc9bf540a47440b-');
-
-  if (user.type === 'error') {
-    return res.status(400).json(message.error(user.payload));
+  if (user.message.type === 'error') {
+    return res.status(400).json(message.error(user.message.text));
   }
 
-  if (allowToUpdateCodewarsByDate(user.payload.codewarsAnalytics)) {
+  // 2. Check if last request is no early than 24h
+  if (!allowToUpdateCodewarsByDate(user.payload.codewarsAnalytics)) {
+    // 3. Get new codewars data
     const codewarsUserNewData = await codewarsGetUser(user.payload.codewarsId);
+    if (codewarsUserNewData.message.type === 'success') {
+      // 4. Update existing user
+      const userUpdateResult = await userUpdate(userId, codewarsUserNewData.payload);
+      if (userUpdateResult.message.type === 'success') {
+        return res.status(200).json(message.success(userUpdateResult.message.text));
+      } else {
+        return res.status(400).json(message.error(userUpdateResult.message.text));
+      }
+    } else {
+      return res.status(400).json(message.error(codewarsUserNewData.message.text));
+    }
   } else {
-    res
+    return res
       .status(400)
       .json(message.error('You can update statistic after 24h after previous call'));
   }
-
 };
 
 function getUser(userId) {
   return User.findById(userId)
     .select('-__v -password')
     .exec()
-    .then(doc => ({
-      type: 'success',
-      payload: doc,
-    }))
+    .then(doc => message.success('Get user OK', doc))
     .catch(() => {
-      return {
-        type: 'error',
-        payload: 'User not found',
-      };
+      return message.error('User not found');
     });
 }
 
 function allowToUpdateCodewarsByDate(codewarsAnalytics) {
-  const lastRecord = codewarsAnalytics[codewarsAnalytics.length - 1];
-  const lastRecordTime = lastRecord.timestamp;
+  const lastRecordTime = codewarsAnalytics[codewarsAnalytics.length - 1].timestamp;
   const currentTime = new Date();
   const hoursDifference = (new Date(currentTime) - new Date(lastRecordTime)) / 36e5;
   return hoursDifference > 24;
 }
 
-// function codewarsGetUser(codewarsId) {
-//   return codewarsGetUser(codewarsId)
-//     .then(codewarsUser => codewarsUser)
-//     .catch(err => {
-//       if (err.message === 'codewars_user_not_found') {
-//         throw new Error('Wrong codewars URL or user not exist');
-//       } else {
-//         throw new Error(err.message);
-//       }
-//     });
-// }
-
 const userUpdate = (userId, codewarsUserData) => {
-  return User.update({ _id: id }, { $push: { codewarsAnalytics: codewarsUserData } })
+  return User.update(
+    { _id: userId },
+    {
+      $push: {
+        codewarsAnalytics: {
+          timestamp: Date.now(),
+          data: codewarsUserData,
+        },
+      },
+    },
+  )
     .exec()
     .then(doc => {
       if (doc.n) {
-        res.status(200).json(message.success('Ok'));
+        return message.success('User updated successfully');
       } else {
-        res.status(400).json(message.error('User not found'));
+        return message.error('User not found');
       }
     })
-    .catch(err => {
-      res.status(500).json(message.error(err));
-    });
+    .catch(error => message.error('Update user error', error));
 };
 
 export default userUpdateCw;
