@@ -6,10 +6,10 @@ const readCwUser = (req, res, next) => {
 
   codewarsGetUser(codewarsId)
     .then(codewarsUser => {
-      if (codewarsUser.success === false) {
-        throw new Error('codewars_user_not_found'); // Express will catch this on its own.
+      if (codewarsUser.message.type === 'success') {
+        res.status(200).json(codewarsUser.payload);
       } else if (codewarsUser.name) {
-        res.status(200).json(codewarsUser);
+        throw new Error('codewars_user_not_found'); // Express will catch this on its own.
       }
     })
     .catch(err => {
@@ -20,6 +20,5 @@ const readCwUser = (req, res, next) => {
       }
     });
 };
-
 
 export default readCwUser;

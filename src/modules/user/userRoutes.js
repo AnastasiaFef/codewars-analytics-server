@@ -7,7 +7,6 @@ import userGetAll from './controllers/userControllerGetAll';
 import userGetById from './controllers/userControllerGetById';
 import userDeleteById from './controllers/userControllerDeleteById';
 import codewarsReadUser from './controllers/userControllerReadCwUser';
-import codewarsRequestUpdates from './../codewars/codewarsRequestUpdates';
 
 const router = Router();
 
@@ -19,7 +18,6 @@ router.get('/:userId', userCheckAuth, userGetById);
 router.delete('/:userId', userCheckAuth, userDeleteById);
 
 router.get('/read/cw/:codewarsId', codewarsReadUser);
-// router.get('/update/cw/:userId', codewarsRequestUpdates);
 router.get('/update/cw/:userId', userUpdateCw);
 // Not active
 // router.patch('/:userId', userUpdateById);

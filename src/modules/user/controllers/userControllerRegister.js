@@ -13,10 +13,10 @@ const userRegister = async (req, res, next) => {
   } else {
     codewarsGetUser(req.body.codewarsId)
       .then(codewarsUser => {
-        if (codewarsUser.success === false) {
+        if (codewarsUser.message.type === 'success') {
+          createUser(req, res, next, codewarsUser.payload);
+        } else {
           throw new Error('codewars_user_not_found'); // Express will catch this on its own.
-        } else if (codewarsUser.name) {
-          createUser(req, res, next, codewarsUser);
         }
       })
       .catch(err => {
