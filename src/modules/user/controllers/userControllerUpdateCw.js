@@ -17,7 +17,7 @@ const userUpdateCw = async (req, res, next) => {
   }
 
   // 2. Check if last request is no early than 24h
-  if (!allowToUpdateCodewarsByDate(user.payload.codewarsAnalytics)) {
+  if (allowToUpdateCodewarsByDate(user.payload.codewarsAnalytics)) {
     // 3. Get new codewars data
     const codewarsUserNewData = await codewarsGetUser(user.payload.codewarsId);
     if (codewarsUserNewData.message.type === 'success') {
