@@ -3,7 +3,7 @@ import message from '../../messages/messages';
 
 const userGetAll = (req, res, next) => {
   User.find()
-    .select('-__v -password')
+    .select('-__v -password -email')
     .exec()
     .then(docs => {
       res.status(200).json(docs);
