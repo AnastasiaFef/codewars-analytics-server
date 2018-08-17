@@ -9,7 +9,7 @@ import codewarsGetUser from '../../codewars/codewarsGetUser';
 // 3. Create user with codewars data
 const userRegister = async (req, res, next) => {
   if (await isUserExist(req, res, next)) {
-    res.status(409).json(message.error('Mail exist.'));
+    return res.status(409).json(message.error('Mail exist.'));
   } else {
     codewarsGetUser(req.body.codewarsId)
       .then(codewarsUser => {
@@ -62,8 +62,11 @@ function createUser(req, res, next, codewarsUser) {
       .then(() => {
         res.status(201).json(message.success('User created'));
       })
-      .catch(userError => {
-        res.status(500).json(message.error(userError));
+      .catch(error => {
+        if (error.code === 11000) {
+          return res.status(500).json(message.error('User with entered email exist'));
+        }
+        return res.status(500).json(message.error(error));
       });
   });
 }
