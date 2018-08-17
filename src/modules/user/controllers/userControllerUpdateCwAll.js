@@ -5,7 +5,7 @@ import codewarsGetUser from '../../codewars/codewarsGetUser';
 // 1. Get all users from Mongo
 // 2. Cycle by id's
 // 3. Get new codewars data
-// 4. Update existing user
+// 4. Update existing users
 
 const userUpdateCwAll = async (req, res, next) => {
   console.log('userUpdateCwAll');
@@ -17,34 +17,41 @@ const userUpdateCwAll = async (req, res, next) => {
     return res.status(400).json(message.error(users.message.text));
   }
 
-  const report = {
-    successfully: [],
-    problems: [],
-  };
+  const promises = [];
 
-  await users.payload.forEach(async (el, i) => {
-    console.log(el);
-    // 3. Get new codewars data
-    const codewarsUserNewData = await codewarsGetUser(el.codewarsId);
-    if (codewarsUserNewData.message.type === 'success') {
-      // 4. Update existing user
-      const userUpdateResult = await userUpdate(el._id, codewarsUserNewData.payload);
-      if (userUpdateResult.message.type === 'success') {
-        report.successfully.push(el._id);
-        // return res.status(200).json(message.success(userUpdateResult.message.text));
-      } else {
-        report.problems.push(el._id);
-        // return res.status(400).json(message.error(userUpdateResult.message.text));
-      }
-    } else {
-      report.problems.push(el.codewarsId);
-      //return res.status(400).json(message.error(codewarsUserNewData.message.text));
-    }
+  await users.payload.forEach(async el => {
+    promises.push(act(el));
   });
 
-  console.log('end');
-  return res.status(200).json(message.success(report));
+  Promise.all(promises)
+    .then(result => {
+      return res.status(200).json(message.success(result));
+    })
+    .catch(err => {
+      return res.status(400).json(message.error(err));
+    });
 };
+
+function act(el) {
+  const userId = el._id;
+  const codewarsId = el.codewarsId;
+
+  return new Promise(async (resolve, rejected) => {
+    // 3. Get new codewars data
+    const codewarsUserNewData = await codewarsGetUser(codewarsId);
+    if (codewarsUserNewData.message.type === 'success') {
+      // 4. Update existing user
+      const userUpdateResult = await userUpdate(userId, codewarsUserNewData.payload);
+      if (userUpdateResult.message.type === 'success') {
+        resolve(message.success(userUpdateResult.message.text, userId));
+      } else {
+        resolve(message.error(userUpdateResult.message.text, userId));
+      }
+    } else {
+      resolve(message.error(codewarsUserNewData.message.text, userId));
+    }
+  });
+}
 
 export function getUserAll() {
   return User.find()
@@ -57,7 +64,6 @@ export function getUserAll() {
 }
 
 const userUpdate = (userId, codewarsUserData) => {
-  return message.success('User updated successfully');
   return User.update(
     { _id: userId },
     {
