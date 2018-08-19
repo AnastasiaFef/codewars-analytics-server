@@ -8,8 +8,6 @@ import codewarsGetUser from '../../codewars/codewarsGetUser';
 // 4. Update existing users
 
 const userUpdateCwAll = async (req, res, next) => {
-  console.log('userUpdateCwAll');
-
   // 1. Get users from Mongo
   const users = await getUserAll();
 
@@ -17,10 +15,11 @@ const userUpdateCwAll = async (req, res, next) => {
     return res.status(400).json(message.error(users.message.text));
   }
 
+  // Create array of promises
   const promises = [];
 
-  await users.payload.forEach(async el => {
-    promises.push(act(el));
+  await users.payload.forEach(async user => {
+    promises.push(updateUserCodewarsData(user));
   });
 
   Promise.all(promises)
@@ -32,16 +31,21 @@ const userUpdateCwAll = async (req, res, next) => {
     });
 };
 
-function act(el) {
-  const userId = el._id;
-  const codewarsId = el.codewarsId;
+function updateUserCodewarsData(user) {
+  const userId = user._id;
+  const codewarsId = user.codewarsId;
 
+  // All promises are resolved, but different answers in resolve()
   return new Promise(async (resolve, rejected) => {
     // 3. Get new codewars data
     const codewarsUserNewData = await codewarsGetUser(codewarsId);
     if (codewarsUserNewData.message.type === 'success') {
       // 4. Update existing user
-      const userUpdateResult = await userUpdate(userId, codewarsUserNewData.payload);
+      const userUpdateResult = await userUpdate(
+        userId,
+        codewarsUserNewData.payload,
+        user,
+      );
       if (userUpdateResult.message.type === 'success') {
         resolve(message.success(userUpdateResult.message.text, userId));
       } else {
@@ -63,27 +67,38 @@ export function getUserAll() {
     });
 }
 
-const userUpdate = (userId, codewarsUserData) => {
-  return User.update(
-    { _id: userId },
-    {
-      $push: {
-        codewarsAnalytics: {
-          timestamp: Date.now(),
-          data: codewarsUserData,
+const userUpdate = (userId, codewarsUserData, user) => {
+  const lastCodewarsRecordInUser =
+    user.codewarsAnalytics[user.codewarsAnalytics.length - 1];
+  const dayOfMonthCodewarsUpdate = new Date(lastCodewarsRecordInUser.timestamp).getDate(); // Day of month
+  const currentDayOfMonth = new Date().getDate();
+
+  // return message.success('User updated successfully ))');
+  // Do update last record in codewars array in user
+  if (currentDayOfMonth === dayOfMonthCodewarsUpdate) {
+    return message.success('User data exist');
+  } else {
+    return User.update(
+      { _id: userId },
+      {
+        $push: {
+          codewarsAnalytics: {
+            timestamp: Date.now(),
+            data: codewarsUserData,
+          },
         },
       },
-    },
-  )
-    .exec()
-    .then(doc => {
-      if (doc.n) {
-        return message.success('User updated successfully');
-      } else {
-        return message.error('User not found');
-      }
-    })
-    .catch(error => message.error('Update user error', error));
+    )
+      .exec()
+      .then(doc => {
+        if (doc.n) {
+          return message.success('User updated successfully');
+        } else {
+          return message.error('User not found');
+        }
+      })
+      .catch(error => message.error('Update user error', error));
+  }
 };
 
 export default userUpdateCwAll;
