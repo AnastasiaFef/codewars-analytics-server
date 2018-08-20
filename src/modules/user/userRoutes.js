@@ -20,7 +20,7 @@ router.delete('/:userId', userCheckAuth, userDeleteById);
 
 router.get('/read/cw/:codewarsId', codewarsReadUser);
 router.get('/update/cw/all', userCheckAuth, userUpdateCwAll);
-router.get('/update/cw/:userId', userUpdateCw);
+// router.get('/update/cw/:userId', userUpdateCw);
 // Not active
 // router.patch('/:userId', userUpdateById);
 

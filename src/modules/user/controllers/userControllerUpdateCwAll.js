@@ -76,7 +76,27 @@ const userUpdate = (userId, codewarsUserData, user) => {
   // return message.success('User updated successfully ))');
   // Do update last record in codewars array in user
   if (currentDayOfMonth === dayOfMonthCodewarsUpdate) {
-    return message.success('User data exist');
+    return User.update(
+      {
+        _id: userId,
+        'codewarsAnalytics.timestamp': lastCodewarsRecordInUser.timestamp,
+      },
+      {
+        $set: {
+          'codewarsAnalytics.$.timestamp': Date.now(),
+          'codewarsAnalytics.$.data': codewarsUserData,
+        },
+      },
+    )
+      .exec()
+      .then(doc => {
+        if (doc.n) {
+          return message.success('Codewars successfully updated');
+        } else {
+          return message.error('User not found');
+        }
+      })
+      .catch(error => message.error('Update Codewars error', error));
   } else {
     return User.update(
       { _id: userId },
@@ -92,12 +112,12 @@ const userUpdate = (userId, codewarsUserData, user) => {
       .exec()
       .then(doc => {
         if (doc.n) {
-          return message.success('User updated successfully');
+          return message.success('Codewars data successfully added');
         } else {
           return message.error('User not found');
         }
       })
-      .catch(error => message.error('Update user error', error));
+      .catch(error => message.error('Add Codewars error', error));
   }
 };
 
