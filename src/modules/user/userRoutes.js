@@ -2,7 +2,7 @@ import { Router } from 'express';
 import userCheckAuth from './controllers/userCheckAuth';
 import userRegister from './controllers/userControllerRegister';
 import userLogin from './controllers/userControllerLogin';
-import userUpdateCw from './controllers/userControllerUpdateCw';
+// import userUpdateCw from './controllers/userControllerUpdateCw';
 import userGetAll from './controllers/userControllerGetAll';
 import userGetById from './controllers/userControllerGetById';
 import userDeleteById from './controllers/userControllerDeleteById';

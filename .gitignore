@@ -7,3 +7,4 @@ uploads/images/*
 /process.env
 /yarn.lock
 .env
+/dump/
