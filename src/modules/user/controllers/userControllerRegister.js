@@ -44,17 +44,17 @@ function createUser(req, res, next, codewarsUser) {
       return res.status(500).json(message.error(bcryptError));
     }
 
+    const codewarsRecord = {
+      timestamp: Date.now(),
+      data: codewarsUser,
+    };
+
     const user = new User({
       _id: new mongoose.Types.ObjectId(),
       email: req.body.email,
       codewarsId: req.body.codewarsId,
       password: hash,
-      codewarsAnalytics: [
-        {
-          timestamp: Date.now(),
-          data: codewarsUser,
-        },
-      ],
+      codewarsAnalytics: [codewarsRecord, codewarsRecord], // Create 2 same records to have initial data, because we are updating the last one
     });
 
     user
