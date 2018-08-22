@@ -76,6 +76,7 @@ const userUpdate = (userId, codewarsUserData, user) => {
   // return message.success('User updated successfully ))');
   // Do update last record in codewars array in user
   if (currentDayOfMonth === dayOfMonthCodewarsUpdate) {
+    // return message.success(`Codewars UPDATE: ${new Date(lastCodewarsRecordInUser.timestamp).toLocaleString()}  ${dayOfMonthCodewarsUpdate}` )
     return User.update(
       {
         _id: userId,
@@ -98,6 +99,7 @@ const userUpdate = (userId, codewarsUserData, user) => {
       })
       .catch(error => message.error('Update Codewars error', error));
   } else {
+    // return message.success(`Codewars PUSH: ${currentDayOfMonth}  ${dayOfMonthCodewarsUpdate}` )
     return User.update(
       { _id: userId },
       {
