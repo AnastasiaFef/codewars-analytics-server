@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 export default function mongoConnection() {
+  mongoose.set('useCreateIndex', true);
   mongoose.connect(
     `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${
       process.env.MONGO_HOST
