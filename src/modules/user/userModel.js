@@ -21,6 +21,13 @@ const userSchema = mongoose.Schema(
       type: Array,
       required: true,
     },
+    groups: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Group',
+        required: false,
+      },
+    ]
   },
   { timestamps: {} },
 );

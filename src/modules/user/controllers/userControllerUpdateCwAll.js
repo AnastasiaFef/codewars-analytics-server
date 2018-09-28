@@ -23,20 +23,18 @@ const userUpdateCwAll = async (req, res, next) => {
   });
 
   Promise.all(promises)
-    .then(result => {
-      return res.status(200).json(message.success(result));
-    })
-    .catch(err => {
-      return res.status(400).json(message.error(err));
-    });
+    .then(result => res.status(200).json(message.success(result)))
+    .catch(err => res.status(400).json(message.error(err)));
 };
 
 function updateUserCodewarsData(user) {
   const userId = user._id;
+
+  // eslint-disable-next-line prefer-destructuring
   const codewarsId = user.codewarsId;
 
   // All promises are resolved, but different answers in resolve()
-  return new Promise(async (resolve, rejected) => {
+  return new Promise(async (resolve) => {
     // 3. Get new codewars data
     const codewarsUserNewData = await codewarsGetUser(codewarsId);
     if (codewarsUserNewData.message.type === 'success') {
@@ -62,9 +60,7 @@ export function getUserAll() {
     .select('-__v -password -email')
     .exec()
     .then(doc => message.success('Get all users OK', doc))
-    .catch(() => {
-      return message.error('Get all users ERROR');
-    });
+    .catch(() => message.error('Get all users ERROR'));
 }
 
 const userUpdate = (userId, codewarsUserData, user) => {
@@ -93,34 +89,31 @@ const userUpdate = (userId, codewarsUserData, user) => {
       .then(doc => {
         if (doc.n) {
           return message.success('Codewars successfully updated');
-        } else {
-          return message.error('User not found');
         }
+        return message.error('User not found');
       })
       .catch(error => message.error('Update Codewars error', error));
-  } else {
-    // return message.success(`Codewars PUSH: ${currentDayOfMonth}  ${dayOfMonthCodewarsUpdate}` )
-    return User.update(
-      { _id: userId },
-      {
-        $push: {
-          codewarsAnalytics: {
-            timestamp: Date.now(),
-            data: codewarsUserData,
-          },
+  }
+  // return message.success(`Codewars PUSH: ${currentDayOfMonth}  ${dayOfMonthCodewarsUpdate}` )
+  return User.update(
+    { _id: userId },
+    {
+      $push: {
+        codewarsAnalytics: {
+          timestamp: Date.now(),
+          data: codewarsUserData,
         },
       },
-    )
-      .exec()
-      .then(doc => {
-        if (doc.n) {
-          return message.success('Codewars data successfully added');
-        } else {
-          return message.error('User not found');
-        }
-      })
-      .catch(error => message.error('Add Codewars error', error));
-  }
+    },
+  )
+    .exec()
+    .then(doc => {
+      if (doc.n) {
+        return message.success('Codewars data successfully added');
+      }
+      return message.error('User not found');
+    })
+    .catch(error => message.error('Add Codewars error', error));
 };
 
 export default userUpdateCwAll;

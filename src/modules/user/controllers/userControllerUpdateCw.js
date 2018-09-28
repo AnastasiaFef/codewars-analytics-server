@@ -25,17 +25,14 @@ const userUpdateCw = async (req, res, next) => {
       const userUpdateResult = await userUpdate(userId, codewarsUserNewData.payload);
       if (userUpdateResult.message.type === 'success') {
         return res.status(200).json(message.success(userUpdateResult.message.text));
-      } else {
-        return res.status(400).json(message.error(userUpdateResult.message.text));
       }
-    } else {
-      return res.status(400).json(message.error(codewarsUserNewData.message.text));
+      return res.status(400).json(message.error(userUpdateResult.message.text));
     }
-  } else {
-    return res
-      .status(400)
-      .json(message.error('You can update statistic after 24h after previous call'));
+    return res.status(400).json(message.error(codewarsUserNewData.message.text));
   }
+  return res
+    .status(400)
+    .json(message.error('You can update statistic after 24h after previous call'));
 };
 
 function getUser(userId) {
@@ -43,9 +40,7 @@ function getUser(userId) {
     .select('-__v -password')
     .exec()
     .then(doc => message.success('Get user OK', doc))
-    .catch(() => {
-      return message.error('User not found');
-    });
+    .catch(() => message.error('User not found'));
 }
 
 function allowToUpdateCodewarsByDate(codewarsAnalytics) {
@@ -55,8 +50,8 @@ function allowToUpdateCodewarsByDate(codewarsAnalytics) {
   return hoursDifference > 24;
 }
 
-const userUpdate = (userId, codewarsUserData) => {
-  return User.update(
+const userUpdate = (userId, codewarsUserData) =>
+  User.update(
     { _id: userId },
     {
       $push: {
@@ -71,11 +66,9 @@ const userUpdate = (userId, codewarsUserData) => {
     .then(doc => {
       if (doc.n) {
         return message.success('User updated successfully');
-      } else {
-        return message.error('User not found');
       }
+      return message.error('User not found');
     })
     .catch(error => message.error('Update user error', error));
-};
 
 export default userUpdateCw;
