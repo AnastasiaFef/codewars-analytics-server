@@ -10,6 +10,7 @@ export default async function groupCreate(req, res) {
   const group = new Group({
     _id,
     name: req.body.name,
+    description: req.body.description,
     owner: userId,
     members: [userId],
   });
