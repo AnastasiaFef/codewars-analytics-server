@@ -1,7 +1,7 @@
 import User from '../userModel';
 import message from '../../messages/messages';
 
-const userGetAllList = (req, res, next) => {
+const userGetAllLightweight = (req, res, next) => {
   User.find()
     .select('-__v -password -email -codewarsAnalytics')
     .exec()
@@ -13,4 +13,4 @@ const userGetAllList = (req, res, next) => {
     });
 };
 
-export default userGetAllList;
+export default userGetAllLightweight;
