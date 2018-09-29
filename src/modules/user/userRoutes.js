@@ -14,7 +14,7 @@ const router = Router();
 
 // USER
 router.get('/', userCheckAuth, userGetAll);
-router.get('/list', userCheckAuth, userGetAllLightweight);
+router.get('/lightweight', userCheckAuth, userGetAllLightweight);
 router.post('/', userRegister);
 router.post('/login', userLogin);
 router.get('/:userId', userCheckAuth, userGetById);
