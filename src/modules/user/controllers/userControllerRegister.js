@@ -53,6 +53,7 @@ function createUser(req, res, next, codewarsUser) {
       _id: new mongoose.Types.ObjectId(),
       email: req.body.email,
       name: req.body.name,
+      phone: req.body.phone,
       codewarsId: req.body.codewarsId,
       password: hash,
       codewarsAnalytics: [codewarsRecord, codewarsRecord], // Create 2 same records to have initial data, because we are updating the last one

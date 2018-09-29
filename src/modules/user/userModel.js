@@ -15,6 +15,12 @@ const userSchema = mongoose.Schema(
       unique: false,
       match: /^[A-Z][a-z]{1,15}\s[A-Z][a-z]{1,15}$/,
     },
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+      match: /^\+[0-9]{10,12}$/,
+    },
     password: {
       type: String,
       required: true,
