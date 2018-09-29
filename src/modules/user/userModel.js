@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      match: /^\+[0-9]{10,12}$/,
+      match: /^\+[0-9]{11,12}$/,
     },
     password: {
       type: String,

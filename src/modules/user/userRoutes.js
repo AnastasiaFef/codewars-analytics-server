@@ -4,6 +4,7 @@ import userRegister from './controllers/userControllerRegister';
 import userLogin from './controllers/userControllerLogin';
 // import userUpdateCw from './controllers/userControllerUpdateCw';
 import userGetAll from './controllers/userControllerGetAll';
+import userGetAllList from './controllers/userControllerGetAllList';
 import userGetById from './controllers/userControllerGetById';
 import userDeleteById from './controllers/userControllerDeleteById';
 import codewarsReadUser from './controllers/userControllerReadCwUser';
@@ -13,6 +14,7 @@ const router = Router();
 
 // USER
 router.get('/', userCheckAuth, userGetAll);
+router.get('/list', userCheckAuth, userGetAllList);
 router.post('/', userRegister);
 router.post('/login', userLogin);
 router.get('/:userId', userCheckAuth, userGetById);
