@@ -9,6 +9,12 @@ const userSchema = mongoose.Schema(
       unique: true,
       match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
     },
+    name: {
+      type: String,
+      required: true,
+      unique: false,
+      match: /^[A-Z][a-z]{1,15}\s[A-Z][a-z]{1,15}$/,
+    },
     password: {
       type: String,
       required: true,
@@ -27,7 +33,7 @@ const userSchema = mongoose.Schema(
         ref: 'Group',
         required: false,
       },
-    ]
+    ],
   },
   { timestamps: {} },
 );
