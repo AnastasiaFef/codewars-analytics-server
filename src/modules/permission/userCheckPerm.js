@@ -10,14 +10,13 @@ const userCan = (userRoles, checkedPermission) => {
 };
 
 const userCheckPerm = checkedPermission => (req, res, next) => {
-  const userId = req.userData.userId;
+  const { userId } = req.userData;
 
   User.findById(userId)
     .select('-__v -password -codewarsAnalytics')
     .exec()
     .then(doc => {
-      res.status(200).json([checkedPermission, userCan(doc.roles, checkedPermission)]);
-      // next();
+      if (userCan(doc.roles, checkedPermission)) next();
     })
     .catch(err => {
       res.status(500).json(message.error(err));
