@@ -34,7 +34,7 @@ function updateUserCodewarsData(user) {
   const codewarsId = user.codewarsId;
 
   // All promises are resolved, but different answers in resolve()
-  return new Promise(async (resolve) => {
+  return new Promise(async resolve => {
     // 3. Get new codewars data
     const codewarsUserNewData = await codewarsGetUser(codewarsId);
     if (codewarsUserNewData.message.type === 'success') {

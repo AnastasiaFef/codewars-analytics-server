@@ -9,6 +9,7 @@ import userGetById from './controllers/userControllerGetById';
 import userDeleteById from './controllers/userControllerDeleteById';
 import codewarsReadUser from './controllers/userControllerReadCwUser';
 import userUpdateCwAll from './controllers/userControllerUpdateCwAll';
+import userControllerUpdateAddRole from './controllers/userControllerUpdateAddRole';
 
 const router = Router();
 
@@ -47,6 +48,13 @@ router.get(
   userCheckAuth,
   userCheckPerm('user.update.all'),
   userUpdateCwAll,
+);
+
+router.get(
+  '/update/add/role',
+  userCheckAuth,
+  userCheckPerm('off'),
+  userControllerUpdateAddRole,
 );
 
 export default router;
