@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import userCheckAuth from '../user/controllers/userCheckAuth';
+import userCheckPerm from '../permission/userCheckPerm';
 
 import groupLoadAll from './controllers/groupLoadAll';
 import groupGetById from './controllers/groupGetById';
@@ -12,10 +13,23 @@ import groupDeleteById from './controllers/groupDeleteById';
 const router = Router();
 
 router.get('/', groupLoadAll);
-router.post('/', userCheckAuth, groupCreate);
+router.post('/', userCheckAuth, userCheckPerm('group.create'), groupCreate);
+
 router.get('/:groupId', groupGetById);
-router.patch('/:groupId', userCheckAuth, groupUpdateById);
+
+router.patch(
+  '/:groupId',
+  userCheckAuth,
+  userCheckPerm('group.update.any'),
+  groupUpdateById,
+);
+router.delete(
+  '/:groupId',
+  userCheckAuth,
+  userCheckPerm('group.delete.any'),
+  groupDeleteById,
+);
+
 // router.patch('/:groupId/addUsers', userCheckAuth, groupAddUsers);
-router.delete('/:groupId', userCheckAuth, groupDeleteById);
 
 export default router;

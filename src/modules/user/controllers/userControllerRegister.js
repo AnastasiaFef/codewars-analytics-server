@@ -10,23 +10,22 @@ import codewarsGetUser from '../../codewars/codewarsGetUser';
 const userRegister = async (req, res, next) => {
   if (await isUserExist(req, res, next)) {
     return res.status(409).json(message.error('Mail exist.'));
-  } else {
-    codewarsGetUser(req.body.codewarsId)
-      .then(codewarsUser => {
-        if (codewarsUser.message.type === 'success') {
-          createUser(req, res, next, codewarsUser.payload);
-        } else {
-          throw new Error('codewars_user_not_found'); // Express will catch this on its own.
-        }
-      })
-      .catch(err => {
-        if (err.message === 'codewars_user_not_found') {
-          res.status(409).json(message.error('Wrong codewars URL or user not exist'));
-        } else {
-          res.status(409).json(message.error(''));
-        }
-      });
   }
+  codewarsGetUser(req.body.codewarsId)
+    .then(codewarsUser => {
+      if (codewarsUser.message.type === 'success') {
+        createUser(req, res, next, codewarsUser.payload);
+      } else {
+        throw new Error('codewars_user_not_found'); // Express will catch this on its own.
+      }
+    })
+    .catch(err => {
+      if (err.message === 'codewars_user_not_found') {
+        res.status(409).json(message.error('Wrong codewars URL or user not exist'));
+      } else {
+        res.status(409).json(message.error(''));
+      }
+    });
 };
 
 export default userRegister;
@@ -56,6 +55,7 @@ function createUser(req, res, next, codewarsUser) {
       phone: req.body.phone,
       codewarsId: req.body.codewarsId,
       password: hash,
+      roles: ['student'],
       codewarsAnalytics: [codewarsRecord, codewarsRecord], // Create 2 same records to have initial data, because we are updating the last one
     });
 
