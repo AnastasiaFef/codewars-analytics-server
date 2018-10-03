@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import userCheckAuth from './controllers/userCheckAuth';
+import userCheckPerm from '../permission/userCheckPerm';
 import userRegister from './controllers/userControllerRegister';
 import userLogin from './controllers/userControllerLogin';
 // import userUpdateCw from './controllers/userControllerUpdateCw';
@@ -14,7 +15,12 @@ const router = Router();
 
 // USER
 router.get('/', userCheckAuth, userGetAll);
-router.get('/lightweight', userCheckAuth, userGetAllLightweight);
+router.get(
+  '/lightweight',
+  userCheckAuth,
+  userCheckPerm('user.get.all'),
+  userGetAllLightweight,
+);
 router.post('/', userRegister);
 router.post('/login', userLogin);
 router.get('/:userId', userCheckAuth, userGetById);

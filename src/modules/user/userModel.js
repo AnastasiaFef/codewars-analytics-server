@@ -40,6 +40,12 @@ const userSchema = mongoose.Schema(
         required: false,
       },
     ],
+    roles: [
+      {
+        type: String,
+        required: false,
+      },
+    ],
   },
   { timestamps: {} },
 );
