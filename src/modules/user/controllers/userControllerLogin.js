@@ -1,7 +1,11 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import _ from 'lodash';
 import User from '../userModel';
 import message from '../../messages/messages';
+import roles from '../../permission/roles';
+
+const acl = userRoles => _.uniq(_.flattenDeep(userRoles.map(el => roles[el])));
 
 const userLogin = (req, res, next) => {
   User.find({ email: req.body.email })
@@ -34,6 +38,7 @@ const userLogin = (req, res, next) => {
               type: 'success',
             },
             token,
+            acl: acl(user[0].roles),
             userId: user[0]._id,
           });
         }

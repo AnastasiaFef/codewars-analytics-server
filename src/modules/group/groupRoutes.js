@@ -13,6 +13,7 @@ import groupDeleteById from './controllers/groupDeleteById';
 const router = Router();
 
 router.get('/', groupLoadAll);
+
 router.post('/', userCheckAuth, userCheckPerm('group.create'), groupCreate);
 
 router.get('/:groupId', groupGetById);
@@ -23,6 +24,7 @@ router.patch(
   userCheckPerm('group.update.any'),
   groupUpdateById,
 );
+
 router.delete(
   '/:groupId',
   userCheckAuth,
