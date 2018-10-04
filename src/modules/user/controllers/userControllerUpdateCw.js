@@ -8,7 +8,7 @@ import codewarsGetUser from '../../codewars/codewarsGetUser';
 // 4. Update existing user
 
 const userUpdateCw = async (req, res, next) => {
-  const userId = req.params.userId;
+  const { userId } = req.params;
   // 1. Get user from Mongo
   const user = await getUser(userId);
 

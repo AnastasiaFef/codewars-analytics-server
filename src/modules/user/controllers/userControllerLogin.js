@@ -9,6 +9,7 @@ const acl = userRoles => _.uniq(_.flattenDeep(userRoles.map(el => roles[el])));
 
 const userLogin = (req, res, next) => {
   User.find({ email: req.body.email })
+    .select('-__v')
     .exec()
     .then(user => {
       if (!user.length) {
@@ -32,12 +33,16 @@ const userLogin = (req, res, next) => {
               expiresIn: process.env.JWT_EXPIRES_IN,
             },
           );
+
+          user[0].password = null;
+
           return res.status(200).json({
             message: {
               text: 'Auth success',
               type: 'success',
             },
             token,
+            user: user[0],
             acl: acl(user[0].roles),
             userId: user[0]._id,
           });

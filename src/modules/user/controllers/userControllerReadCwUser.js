@@ -2,7 +2,7 @@ import message from '../../messages/messages';
 import codewarsGetUser from '../../codewars/codewarsGetUser';
 
 const readCwUser = (req, res, next) => {
-  const codewarsId = req.params.codewarsId;
+  const { codewarsId } = req.params;
 
   codewarsGetUser(codewarsId)
     .then(codewarsUser => {
