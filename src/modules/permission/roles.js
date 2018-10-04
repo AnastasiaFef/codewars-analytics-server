@@ -6,6 +6,7 @@ const roles = {
     'user.update.all',
 
     // GROUP
+    'group.get.all',
     'group.create',
     'group.update.any',
     'group.delete.any',
@@ -13,6 +14,9 @@ const roles = {
   student: [
     // USER
     'user.get.all',
+
+    // GROUP
+    'group.get.all',
   ],
 };
 
