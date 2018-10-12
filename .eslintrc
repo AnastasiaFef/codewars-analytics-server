@@ -3,11 +3,24 @@
     "es6": true,
     "node": true
   },
-  "extends": "airbnb-base",
+  "ecmaFeatures": {
+    "modules": true,
+    "spread": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "parser": "babel-eslint",
+  "extends": ["prettier"],
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": "error",
-    "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "next"
+      }
+    ],
     "arrow-parens": [2, "as-needed"],
     "consistent-return": 0,
     "no-invalid-this": 2,
@@ -28,6 +41,12 @@
         "allow": ["_id", "_doc"]
       }
     ],
-    "no-use-before-define": ["error", { "functions": false, "classes": true }]
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": true
+      }
+    ]
   }
 }
