@@ -22,6 +22,7 @@ const userUpdateCw = async (req, res, next) => {
     const codewarsUserNewData = await codewarsGetUser(user.payload.codewarsId);
     if (codewarsUserNewData.message.type === 'success') {
       // 4. Update existing user
+      // eslint-disable-next-line no-use-before-define
       const userUpdateResult = await userUpdate(userId, codewarsUserNewData.payload);
       if (userUpdateResult.message.type === 'success') {
         return res.status(200).json(message.success(userUpdateResult.message.text));

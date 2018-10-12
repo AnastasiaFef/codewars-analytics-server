@@ -39,6 +39,7 @@ function updateUserCodewarsData(user) {
     const codewarsUserNewData = await codewarsGetUser(codewarsId);
     if (codewarsUserNewData.message.type === 'success') {
       // 4. Update existing user
+      // eslint-disable-next-line no-use-before-define
       const userUpdateResult = await userUpdate(
         userId,
         codewarsUserNewData.payload,
