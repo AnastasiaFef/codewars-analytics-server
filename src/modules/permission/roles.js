@@ -10,6 +10,19 @@ const roles = {
     'group.create',
     'group.update.any',
     'group.delete.any',
+
+    // QUIZ
+    'quiz.get.all',
+    'quiz.create',
+    'quiz.update.any',
+    'quiz.delete.any',
+
+    // QUESTION
+    'question.create',
+    'question.delete.any',
+
+    // QUIZ ANSWER
+    'quiz.answer',
   ],
   student: [
     // USER
@@ -17,6 +30,12 @@ const roles = {
 
     // GROUP
     'group.get.all',
+
+    // QUIZ
+    'quiz.get.all',
+
+    // QUIZ ANSWER
+    'quiz.answer',
   ],
 };
 
