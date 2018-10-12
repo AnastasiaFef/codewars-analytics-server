@@ -16,7 +16,7 @@ router.get('/', groupLoadAll);
 
 router.post('/', userCheckAuth, userCheckPerm('group.create'), groupCreate);
 
-router.get('/:groupId', groupGetById);
+router.get('/:groupId', userCheckAuth, groupGetById);
 
 router.patch(
   '/:groupId',

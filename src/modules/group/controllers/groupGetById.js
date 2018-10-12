@@ -1,4 +1,4 @@
-import Group from './../groupModel';
+import Group from '../groupModel';
 import message from '../../messages/messages';
 
 const groupGetById = (req, res) => {

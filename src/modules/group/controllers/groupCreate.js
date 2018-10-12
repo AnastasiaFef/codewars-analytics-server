@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import Group from './../groupModel';
-import User from './../../user/userModel';
+import Group from '../groupModel';
+import User from '../../user/userModel';
 import message from '../../messages/messages';
 
 export default async function groupCreate(req, res) {
