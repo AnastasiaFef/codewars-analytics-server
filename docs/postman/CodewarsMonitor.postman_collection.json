@@ -7,11 +7,64 @@
 	},
 	"item": [
 		{
-			"_postman_id": "5fc793ea-daec-4db8-ad7b-f167c45e9167",
+			"name": "BACKUP",
+			"item": [
+				{
+					"name": "Backup Dump",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{host}}/backup/dump",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"backup",
+								"dump"
+							]
+						},
+						"description": "Create User"
+					},
+					"response": []
+				},
+				{
+					"name": "Backup Restore",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{host}}/backup/restore",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"backup",
+								"restore"
+							]
+						},
+						"description": "Create User"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "GROUP",
 			"item": [
 				{
-					"_postman_id": "7e309417-0cc9-4df8-bd89-02337260bf8f",
 					"name": "Create Group",
 					"request": {
 						"method": "POST",
@@ -27,15 +80,13 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Js5\"\n}"
+							"raw": "{\n\t\"name\": \"Js28-8\",\n\t\"description\": \"Some text\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/group",
-							"protocol": "http",
+							"raw": "{{host}}/group",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "5000",
 							"path": [
 								"group"
 							]
@@ -44,7 +95,68 @@
 					"response": []
 				},
 				{
-					"_postman_id": "39ed8f11-60f4-423f-8d47-87c30fe12b80",
+					"name": "Edit Group",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"----3-----\",\n\t\"members\": [\n            \"5b7366b42ffb85d6053b8649\", \n            \"5b7ba562c59f6d003a075b09\"\n        ]\n}"
+						},
+						"url": {
+							"raw": "{{host}}/group/5baeb560902190562709dd66",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"group",
+								"5baeb560902190562709dd66"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Group",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/group/5baeaa0cb249d754b7bf15ea",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"group",
+								"5baeaa0cb249d754b7bf15ea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get all Groups",
 					"request": {
 						"method": "GET",
@@ -59,14 +171,39 @@
 							"raw": "{\n\t\"name\": \"Js2\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5000/group",
-							"protocol": "http",
+							"raw": "{{host}}/group",
 							"host": [
-								"localhost"
+								"{{host}}"
 							],
-							"port": "5000",
 							"path": [
 								"group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Js2\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/group/5bc0185bd4006d3caf2bd07f",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"group",
+								"5bc0185bd4006d3caf2bd07f"
 							]
 						}
 					},
@@ -75,11 +212,346 @@
 			]
 		},
 		{
-			"_postman_id": "6dac5036-4f71-446e-ae4f-f9810e4673d5",
+			"name": "QUIZ",
+			"item": [
+				{
+					"name": "QUESTION",
+					"item": [
+						{
+							"name": "Create Quiz",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"disabled": false
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{_token}}",
+										"disabled": false
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Quiz 20\",\n\t\"description\": \"Quiz Some text\",\n\t\"answerType\": \"radio\",\n\t\"variants\": [\n\t\t{ \"name\": \"Ans 10\",\t\"correct\": false },\n\t\t{ \"name\": \"Ans 20\",\t\"correct\": true },\n\t\t{ \"name\": \"Ans 30\",\t\"correct\": true }\n\t],\n\t\"reward\": 2\n}"
+								},
+								"url": {
+									"raw": "{{host}}/quiz/question",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"quiz",
+										"question"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit Quiz",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"----3-----\",\n\t\"members\": [\n            \"5b7366b42ffb85d6053b8649\", \n            \"5b7ba562c59f6d003a075b09\"\n        ]\n}"
+								},
+								"url": {
+									"raw": "{{host}}/quiz/question/5baeb560902190562709dd66",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"quiz",
+										"question",
+										"5baeb560902190562709dd66"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Question",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{host}}/quiz/question/5b5a3de2e624d099a1c5fb7d",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"quiz",
+										"question",
+										"5b5a3de2e624d099a1c5fb7d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete All Questions",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{host}}/quiz/question/all",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"quiz",
+										"question",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all Quiz",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Js2\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/quiz/question",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"quiz",
+										"question"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8edf49c2-1a9a-4144-8333-63dd34cf9e30",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "fd9091c5-4610-431c-89a4-bbe9e49f4cc3",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "ANSWER",
+					"item": [
+						{
+							"name": "Answer Quiz",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"quizId\": \"5bbb9df24cb479ea21ea72fa\",\n\t\"answersId\": [\n\t\t\"5bbb9df24cb479ea21ea72fd\"\n\t],\n\t\"note\" : \"user notes about answer\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/quiz",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"quiz"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all Answers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Js2\"\n}"
+								},
+								"url": {
+									"raw": "{{host}}/quiz/question",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"quiz",
+										"question"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d34f9b37-1ea4-4be0-94f4-322973579c94",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "84c42cb4-897d-4cd4-a86a-2eb64bf8a00c",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "INFO",
+			"item": [
+				{
+					"name": "Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Js2\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/info",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6b0d3447-2b46-4bd4-9c44-427c5659fa4e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ae02d678-52b1-4c69-bf2e-6d0949c058d9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
 			"name": "USER",
 			"item": [
 				{
-					"_postman_id": "9e913b67-1336-4c37-a8b1-9389d66ce079",
 					"name": "Register User",
 					"request": {
 						"method": "POST",
@@ -91,7 +563,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"test17@test.com\",\n  \"password\": \"pass\",\n  \"codewarsId\": \"Viktor Bogutskii\"\n}"
+							"raw": "{\n  \"email\": \"qwe123@qwe.qwe\",\n  \"password\": \"123\",\n  \"codewarsId\": \"Viktor Bogutskii\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/user",
@@ -107,18 +579,17 @@
 					"response": []
 				},
 				{
-					"_postman_id": "b4b82653-9452-4e53-8ea4-d95b294a884c",
 					"name": "User Login",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"id": "dffb3181-7104-49b9-87d7-712d7f3d2b04",
-								"type": "text/javascript",
 								"exec": [
 									"var data = pm.response.json();",
 									"pm.environment.set(\"_token\", data.token);"
-								]
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -127,12 +598,13 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/json",
+								"disabled": false
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"email\": \"test17@test.com\",\n  \"password\": \"pass\"\n}"
+							"raw": "{\n  \"email\": \"info@siteograf.com\",\n  \"password\": \"qwe2@qwe.qwe\"\n}"
 						},
 						"url": {
 							"raw": "{{host}}/user/login",
@@ -149,7 +621,6 @@
 					"response": []
 				},
 				{
-					"_postman_id": "a5129281-db11-48a6-a069-dc15bf4f3bb6",
 					"name": "Get User by id",
 					"request": {
 						"method": "GET",
@@ -165,13 +636,13 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{host}}/user/5a4c98e5a053190a7d48e182",
+							"raw": "{{host}}/user/5baf1fcfc4050f68d8b1f039",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"user",
-								"5a4c98e5a053190a7d48e182"
+								"5baf1fcfc4050f68d8b1f039"
 							]
 						},
 						"description": "Create User"
@@ -179,8 +650,7 @@
 					"response": []
 				},
 				{
-					"_postman_id": "b182854e-3229-4dee-a41f-dbb554d9dcee",
-					"name": "Update CW User by id",
+					"name": "Add Student role",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -195,13 +665,15 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{host}}/user/5a4c98e5a053190a7d48e182",
+							"raw": "{{host}}/user/update/add/role",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"user",
-								"5a4c98e5a053190a7d48e182"
+								"update",
+								"add",
+								"role"
 							]
 						},
 						"description": "Create User"
@@ -209,7 +681,82 @@
 					"response": []
 				},
 				{
-					"_postman_id": "e8cca875-6206-4494-a2c7-c96f5ff86c5c",
+					"name": "All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{host}}/user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user"
+							]
+						},
+						"description": "Create User"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{host}}/user/lightweight",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"lightweight"
+							]
+						},
+						"description": "Create User"
+					},
+					"response": []
+				},
+				{
+					"name": "Update CW all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{_token}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{host}}/user/update/cw/all",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"update",
+								"cw",
+								"all"
+							]
+						},
+						"description": "Create User"
+					},
+					"response": []
+				},
+				{
 					"name": "Get CW User by id",
 					"request": {
 						"method": "GET",
@@ -242,11 +789,14 @@
 					"response": []
 				},
 				{
-					"_postman_id": "4193b7b6-aa4a-491b-a3dc-ae7152c81524",
-					"name": "All Users",
+					"name": "Update CW User by id",
 					"request": {
 						"method": "GET",
 						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
 							{
 								"key": "Authorization",
 								"value": "Bearer {{_token}}"
@@ -254,12 +804,15 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{host}}/user",
+							"raw": "{{host}}/user/update/cw/5b6a2c0cfdc9bf540a47440b",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
-								"user"
+								"user",
+								"update",
+								"cw",
+								"5b6a2c0cfdc9bf540a47440b"
 							]
 						},
 						"description": "Create User"
@@ -267,7 +820,6 @@
 					"response": []
 				},
 				{
-					"_postman_id": "9f469d00-2ab3-4c80-a2b5-97f6eedcbf9a",
 					"name": "Delete User",
 					"request": {
 						"method": "DELETE",
@@ -283,13 +835,13 @@
 						],
 						"body": {},
 						"url": {
-							"raw": "{{host}}/user/5a45eb39cca02415c5ebd103",
+							"raw": "{{host}}/user/5b6a2c0cfdc9bf540a47440b",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"user",
-								"5a45eb39cca02415c5ebd103"
+								"5b6a2c0cfdc9bf540a47440b"
 							]
 						},
 						"description": "Create User"
@@ -299,14 +851,13 @@
 			]
 		},
 		{
-			"_postman_id": "a63caed4-7855-42a0-914f-ea375d28c498",
-			"name": "CW get uset",
+			"name": "CW get user",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "https://www.codewars.com/api/v1/users/0",
+					"raw": "https://www.codewars.com/api/v1/users/789",
 					"protocol": "https",
 					"host": [
 						"www",
@@ -317,7 +868,7 @@
 						"api",
 						"v1",
 						"users",
-						"0"
+						"789"
 					]
 				}
 			},
